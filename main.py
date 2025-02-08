@@ -4,6 +4,9 @@ from pydantic import BaseModel
 from bd.database import engine, Base
 from routers.movie import routerMovie
 from routers.users import login_user
+import uvicorn
+import os
+
 
 # Instancia de aplicación
 app = FastAPI(
@@ -25,3 +28,9 @@ def read_root():
     # return {"Hello": "world"} # Primer tipo de consulta para obtener un objeto fast api http://127.0.0.1:4000/docs
     return HTMLResponse('<h2> Hola mundo! </h2>') # obtenemos solo un texto Hola Mundo
 
+
+# Para poder desplegar, debemos conocer el puerto que va a utilizar railway
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 8000))
+    # Escuchamos nuestra máquina y si no va a coger una variable de entorno
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
